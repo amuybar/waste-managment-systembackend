@@ -1,0 +1,68 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+model User {
+  id          Int      @id @default(autoincrement())
+  username    String   @unique
+  email       String   @unique
+  password    String
+  name        String
+  address     String
+  phoneNumber String
+  accountType String?
+  
+  // Define one-to-many relationship with PickupSchedule
+  pickupSchedules PickupSchedule[]
+  
+  // Define one-to-many relationship with ServiceRequest
+  serviceRequests ServiceRequest[]
+  
+  // Define one-to-many relationship with PaymentInformation
+  paymentInformation PaymentInformation[]
+}
+
+// Define WasteCategory model
+model WasteCategory {
+  id                Int      @id @default(autoincrement())
+  categoryName      String
+  description       String?
+  collectionInstructions String?
+  image             String?
+}
+
+// Define PickupSchedule model
+model PickupSchedule {
+  id             Int       @id @default(autoincrement())
+  userId         Int
+  user           User      @relation(fields: [userId], references: [id])
+  pickupDay      String
+  pickupFrequency String
+  startDate      DateTime
+  endDate        DateTime?
+}
+
+// Define ServiceRequest model
+model ServiceRequest {
+  id            Int      @id @default(autoincrement())
+  userId        Int
+  user          User     @relation(fields: [userId], references: [id])
+  requestType   String
+  requestDetails String
+  requestStatus String
+  requestDate   DateTime
+}
+
+// Define PaymentInformation model
+model PaymentInformation {
+  id           Int      @id @default(autoincrement())
+  userId       Int
+  user         User     @relation(fields: [userId], references: [id])
+  amount       Float
+  paymentMethod String
+  paymentDate  DateTime
+}
