@@ -3,6 +3,7 @@
 const fastify = require('fastify')();
 const fastifySwagger = require('@fastify/swagger');
 const fastifySwaggerUi = require('@fastify/swagger-ui');
+require('dotenv').config();
 
 fastify.register(fastifySwagger);  // Register @fastify/swagger first
 fastify.register(fastifySwaggerUi, {
