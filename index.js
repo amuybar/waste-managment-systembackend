@@ -16,6 +16,9 @@ fastify.register(fastifySwaggerUi, {
     },
   },
 });
+fastify.get('/',function(req,res){
+  res.send('Hello World!');
+})
 
 // Import routes
 const userRoutes = require('./routes/userRoutes');
